@@ -26,10 +26,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Montserrat', -apple-system, sans-serif;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
     background-color: var(--cinza-bg);
     color: var(--texto-escuro);
 }
@@ -39,107 +39,8 @@ body {
     min-height: 100vh;
 }
 
-/* ========== SIDEBAR ========== */
-.sidebar-dark {
-    width: 260px;
-    background-color: var(--azul-sidebar);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo-secao {
-    padding: 35px 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.logo-secao img.logo-img {
-    width: 120px;
-    filter: brightness(0) invert(1);
-    margin-bottom: 8px;
-}
-
-.logo-subtext {
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: #8da4c4;
-    font-weight: 600;
-}
-
-.menu-navegacao {
-    flex: 1;
-    margin-top: 15px;
-}
-
-.link-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 16px 30px;
-    color: #aab8ce;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.link-menu i {
-    font-size: 20px;
-}
-
-.link-menu:hover {
-    color: white;
-    background-color: var(--azul-sidebar-hover);
-}
-
-.link-menu.active {
-    background-color: var(--azul-sidebar-active);
-    color: white;
-    font-weight: 600;
-}
-
-.menu-inferior {
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0 5px;
-}
-
-.user-avatar {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 2px solid #3362a2;
-}
-
-.user-role {
-    font-size: 13px;
-    font-weight: 600;
-    color: white;
-}
-
-.link-menu.logout {
-    padding: 10px 5px;
-    color: white;
-}
-
-/* ========== CONTEUDO PRINCIPAL ========== */
+/* === CONTEUDO PRINCIPAL ========== */
 .conteudo-principal {
-    margin-left: 260px;
     flex: 1;
     padding: 0 50px 50px;
     display: flex;
@@ -651,4 +552,5 @@ body {
     font-size: 12px;
     color: #adb5bd;
 }
+
 

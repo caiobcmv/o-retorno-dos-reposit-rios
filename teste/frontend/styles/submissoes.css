@@ -35,113 +35,18 @@ body {
     min-height: 100vh;
 }
 
-/* ========== SIDEBAR ========== */
-.sidebar-dark {
-    width: 250px;
-    background-color: var(--azul-main);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo-secao {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 20px;
-}
-
-.logo-img {
-    width: 130px;
-    filter: brightness(0) invert(1);
-    margin-bottom: 8px;
-}
-
-.logo-subtext {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: rgba(255,255,255,0.7);
-    font-weight: 600;
-}
-
-.menu-navegacao {
-    flex: 1;
-    margin-top: 20px;
-}
-
-.link-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 14px 25px;
-    margin: 0 15px 5px 15px; /* Added margins so it acts like a pill */
-    border-radius: 8px; /* Standard pill shape */
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-.link-menu:hover {
-    color: white;
-    background: rgba(255,255,255,0.05);
-}
-
-/* O estado active na aba lateral */
-.link-menu.active {
-    background: #12407c; /* Azul distinto conforme a imagem */
-    color: white;
-    font-weight: 700;
-}
-
-/* Botão inferior laranja da Sidebar */
-.sidebar-bottom-action {
-    padding: 20px;
-    margin-top: auto;
-}
-.btn-nova-submissao {
-    background: #f59e0b; /* Laranja da imagem */
-    color: #fff;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 6px;
-    font-weight: 800;
-    font-size: 11px;
-    text-transform: uppercase;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: 0.2s;
-    box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
-}
-.btn-nova-submissao:hover {
-    background: #d97706;
-}
-
-/* ========== MAIN CONTENT ========== */
+/* === MAIN CONTENT ========== */
 .conteudo-principal {
-    margin-left: 250px;
     flex: 1;
     padding: 0 40px 40px;
     background: var(--branco);
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-/* Wrapper interno para limitar largura e centralizar */
+/* Wrapper interno removido para não forçar centralização */
 .conteudo-principal > * {
     width: 100%;
-    max-width: 1200px;
 }
 
 /* ========== HEADER ========== */
@@ -734,3 +639,4 @@ body {
 .btn-pag-arrow:hover, .btn-pag.numeric:hover {
     background: var(--fundo);
 }
+

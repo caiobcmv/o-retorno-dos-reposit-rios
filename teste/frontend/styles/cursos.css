@@ -33,68 +33,7 @@ body {
     min-height: 100vh;
 }
 
-/* ========== SIDEBAR ========== */
-.sidebar-dark {
-    width: 250px;
-    background-color: var(--azul-main);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo-secao {
-    padding: 30px 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.logo-secao img.logo-img {
-    width: 140px;
-}
-
-.sidebar-dark .logo-img {
-    filter: brightness(0) invert(1);
-}
-
-.menu-navegacao {
-    flex: 1;
-    margin-top: 20px;
-}
-
-.link-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 25px;
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-.link-menu:hover {
-    color: white;
-}
-
-.link-menu.active {
-    background: white;
-    color: var(--azul-main);
-    border-radius: 0 30px 30px 0;
-    margin-right: 15px;
-    font-weight: 700;
-}
-
-.menu-inferior {
-    padding-bottom: 20px;
-}
-
-/* ========== CONTEÚDO ========== */
+/* === CONTEÚDO ========== */
 .conteudo-principal {
     margin-left: 250px;
     flex: 1;
@@ -645,3 +584,4 @@ body {
     cursor: pointer;
     text-decoration: underline;
 }
+

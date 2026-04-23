@@ -1,115 +1,141 @@
-#  Frontend — Sistema de Gestão de Horas SENAC
-
-Esta é a interface do usuário (UI) do Sistema de Gestão de Atividades Complementares. O frontend foi desenvolvido para ser uma Single Page Experience (dentro de cada módulo), focada em performance, segurança e fidelidade à identidade visual do SENAC.
+<div align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Senac_logo.svg" alt="Senac Logo" width="150" />
+  <h1>🎓 Sistema de Gestão Acadêmica SENAC</h1>
+  <p><strong>Plataforma Completa para Gestão de Atividades Complementares e Protocolos</strong></p>
+  
+  [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+  [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+  [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+  [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+  [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+  [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+</div>
 
 ---
 
-##  Identidade Visual e UX
+## 📌 Sobre o Projeto
 
-O projeto utiliza uma interface baseada em **Dashboards Administrativos**, priorizando a clareza dos dados e a facilidade de navegação.
+O **Sistema de Gestão de Atividades Complementares** é uma solução web *Full Stack* desenvolvida para digitalizar e automatizar o controle de horas complementares nas unidades do SENAC. O sistema elimina a necessidade de planilhas manuais e processos descentralizados (como trocas de e-mails), unificando a experiência de Alunos, Coordenadores e Administradores em um único portal dinâmico e seguro.
 
-| Elemento | Especificação |
+A aplicação foi desenhada com foco em **Alta Performance, Escalabilidade e Experiência do Usuário (UX)**, utilizando uma identidade visual estritamente alinhada com as diretrizes da marca SENAC.
+
+---
+
+## 👥 Perfis de Acesso
+
+O sistema é dividido em três módulos principais de acesso, cada um com suas permissões específicas protegidas via JWT:
+
+| Perfil | Responsabilidades |
 | :--- | :--- |
-| **Tipografia** | Montserrat & Poppins (Google Fonts) |
-| **Paleta de Cores** | Azul Senac (#004587), Laranja (#F7941D), Sucesso (#10B981) |
-| **Ícones** | Boxicons (Biblioteca de ícones vetoriais) |
-| **Layout** | Sidebar fixa com Grid dinâmico para KPIs e Tabelas |
+| 🛡️ **Super Admin** | Gerenciamento global do sistema. Responsável por cadastrar novos **Cursos** e **Coordenadores**, além de configurar os parâmetros da plataforma. |
+| 👨‍🏫 **Coordenador** | Gestão acadêmica do seu curso específico. Valida/reprova submissões de certificados, analisa horas enviadas pelos alunos e acompanha as métricas de eficiência no painel. |
+| 🎓 **Aluno** *(Fase 2)* | Submissão de horas complementares, envio de certificados e acompanhamento da evolução da sua carga horária necessária para formação. |
 
 ---
 
-##  Estrutura de Arquivos
+## 🖥️ Módulos e Interface (Frontend)
+
+O Frontend foi projetado como uma **Single Page Experience** utilizando a metodologia CBA (Component-Based Architecture) adaptada para Vanilla JavaScript.
+
+- **`index.html` (Login):** Portal de acesso unificado com design *split-screen*, seleção visual de perfil e integração JWT.
+- **`dashboardadm.html` (Visão Geral):** Painel do Coordenador com os principais KPIs de horas validadas e submissões pendentes.
+- **`alunos.html` (Gestão de Alunos):** Tabela dinâmica que lista os alunos matriculados no curso sob gestão do Coordenador.
+- **`submissoes.html` (Análise):** Fila de trabalho do coordenador para avaliar os certificados enviados.
+- **`protocoloadm.html` (Protocolos):** Visualização de chamados e solicitações administrativas.
+- **`relatorios.html` (Métricas):** Painel analítico com gráficos integrados gerados com dados reais do backend.
+- **`configuracao.html` (Ajustes):** Tela para configurações da conta do usuário.
+- **`cursosuperadm.html` (Super Admin):** Área de gestão exclusiva para administradores globais (Cursos e Coordenadores).
+
+---
+
+## ⚙️ Arquitetura e Tecnologias
+
+O projeto é dividido em **Backend (API RESTful)** e **Frontend (UI estática consumidora da API)**, ambos servidos através do ambiente Node.js.
+
+### 🏗️ Estrutura de Diretórios
 
 ```text
-frontend/
-├── assets/             → Logos, ícones e imagens oficiais SENAC
-├── pages/              → Estrutura HTML das telas (Módulos)
-│   ├── index.html      → Tela de Login e seleção de perfil
-│   ├── Dasboard.html   → Painel do Aluno (Envio de horas)
-│   ├── dashboardadm.html → Painel do Coordenador (Gestão de Alunos)
-│   ├── configadm.html  → Painel do Super Admin (Cursos e Coordenadores)
-│   └── relatórios.html → Visualização de métricas e status
-├── services/
-│   └── script.js       → O "Cérebro" do Front: Fetch API, JWT e Auth Guard
-└── styles/             → Arquivos CSS modulares
-    ├── global.css      → Variáveis, resets e estilos compartilhados
-    ├── login.css       → Estilização específica do portal de entrada
-    └── dashboard.css   → Estilos de tabelas, badges e cards de KPI
+teste/
+├── backend/
+│   ├── src/
+│   │   ├── config/          → Conexão com PostgreSQL (database.js) e variáveis (.env)
+│   │   ├── controllers/     → Regras de negócio (Admin, Coordenador, Auth)
+│   │   ├── middleware/      → Validação de JWT e permissões de rotas (auth.js)
+│   │   ├── routes/          → Mapeamento dos Endpoints (API)
+│   │   └── server.js        → Arquivo principal de inicialização do Express
+│   ├── uploads/             → Armazenamento local temporário (Multer) para certificados
+│   └── package.json         → Dependências do servidor Node
+│
+├── frontend/
+│   ├── pages/               → Telas do sistema (.html)
+│   ├── services/            
+│   │   ├── script.js        → Motor de renderização dinâmica (Sidebar, Menus, Ativos)
+│   │   └── apiHelper.js     → Centralizador de requisições `fetch` com injeção automática de Token
+│   ├── styles/              → Design System Modular
+│   │   ├── sidebar.css      → Estilos globais (Zero Style Drift)
+│   │   └── style.css        → Estilos globais de autenticação e inputs
+│   └── assets/              → Imagens e ícones
+```
 
+### 🔐 Segurança e Autenticação
 
-     Funcionalidades Técnicas (JavaScript)
-1. Proteção de Rotas (Auth Guard)
-Segurança client-side que impede o acesso de usuários não autenticados ou com perfil incorreto através da função protegerPagina().
+- **Auth Guard no Frontend:** O sistema verifica ativamente o perfil do usuário e a validade do Token no LocalStorage via `protegerPagina()`. Tentativas de burlar as URLs resultam em redirecionamento para o login.
+- **Middlewares no Backend:** Todas as rotas (exceto login) exigem validação criptográfica do Token JWT e verificam se o perfil bate com o recurso solicitado. (Ex: Coordenador não acessa rotas de Super Admin).
 
-Persistência: O Token JWT e o perfil do usuário são mantidos no localStorage.
+---
 
-Redirecionamento: Sessões expiradas ou acessos indevidos retornam automaticamente para a index.html.
+## 🚀 Como Executar o Projeto Localmente
 
-2. Integração Assíncrona com a API
-Todas as requisições são centralizadas em helpers que facilitam a manutenção:
+Siga o passo a passo abaixo para rodar a aplicação completa (Backend e Frontend) na sua máquina:
 
-Headers Automáticos: O cabeçalho de autorização (Bearer Token) é injetado em todas as chamadas via apiFetch.
+### 1. Pré-requisitos
+- [Node.js](https://nodejs.org/en/) instalado (versão 18+ recomendada)
+- [PostgreSQL](https://www.postgresql.org/) rodando na máquina local (versão 14+)
 
-Tratamento de Erros: Captura automática de erros 401 (Unauthorized) para deslogar o usuário com segurança.
+### 2. Configurar o Banco de Dados
+Certifique-se de que o seu Postgres possui um banco criado (Ex: `atividades_complementares`). O banco base deve ser restaurado a partir do *dump* disponibilizado no repositório.
 
-3. Renderização Dinâmica (DOM Manipulation)
-Tabelas Inteligentes: Linhas geradas via código com base no retorno JSON da API.
+### 3. Configurar Variáveis de Ambiente
+Na pasta `backend/src/config/`, crie ou edite o arquivo `.env` com as seguintes credenciais:
+```env
+PORT=3001
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=atividades_complementares
+DB_USER=postgres
+DB_PASSWORD=sua_senha_do_banco
+JWT_SECRET=chave_secreta_super_segura
+```
 
-KPIs Dinâmicos: Contadores de alunos, horas totais e pendências que se atualizam sem a necessidade de refresh (F5).
+### 4. Instalar Dependências e Rodar o Servidor
+Abra o terminal na pasta `backend` e execute:
+```bash
+npm install
+node src/server.js
+```
 
-UI de Feedback: Uso de avatares coloridos e badges de status (Ativo, Trancado, Pendente) gerados logicamente por JavaScript.
+### 5. Acessar o Sistema
+O Node.js subirá o Backend e servirá automaticamente a pasta `frontend`.
+Abra seu navegador e acesse: **`http://localhost:3001`**
 
- Como Executar o Frontend
-O frontend é servido como conteúdo estático pelo próprio servidor Node.js/Express.
+---
 
-Inicie o Servidor Backend:
+## 📡 Resumo dos Principais Endpoints da API
 
-Bash
-node backend/src/server.js
-Acesse via Navegador:
-Abra http://localhost:3001
+| Rota | Método | Descrição | Permissão |
+| :--- | :--- | :--- | :--- |
+| `/auth/login` | `POST` | Realiza login e retorna JWT Token | Público |
+| `/admin/cursos` | `GET/POST` | Gerenciamento de cursos | Super Admin |
+| `/admin/coordenador` | `POST` | Cadastro de novos coordenadores | Super Admin |
+| `/coordenador/aluno` | `POST` | Vinculação de alunos | Coordenador |
+| `/coordenador/submissoes/:curso_id` | `GET` | Listagem de certificados enviados | Coordenador |
+| `/coordenador/validar/:id` | `PATCH` | Valida ou recusa uma hora complementar | Coordenador |
+| `/dashboard/relatorios` | `GET` | Retorna o compilado de KPIs e dados analíticos | Coordenador |
 
- Componentes de Interface Implementados
-[x] Portal de Login: Validação de campos e seleção de perfil (Aluno, Coordenador, Admin).
+---
 
-[x] Sidebar de Navegação: Menu lateral fixo com controle de estado ativo.
-
-[x] Tabela de Alunos: Visualização detalhada com avatares e badges de curso.
-
-[x] Filtros de Busca: Campo de busca por RA e filtros dinâmicos de cursos populados via banco.
-
-[x] Cards de Resumo: Exibição de dados quantitativos no topo da página.
-
- Responsividade
-O sistema utiliza CSS Grid e Flexbox, garantindo que a interface seja funcional tanto em monitores de alta resolução quanto em notebooks e tablets utilizados em ambiente acadêmico.
-
-
-##  Arquitetura do Sistema
-
-O projeto adota a **Arquitetura Baseada em Componentes (CBA - Component-Based Architecture)**, focando na modularização e separação de responsabilidades para garantir escalabilidade e facilidade de manutenção.
-
-###  Princípios de Componentização Aplicados
-
-1.  **Modularidade Funcional**: Cada funcionalidade (Login, Gestão de Cursos, Análise de Certificados) é tratada como um módulo independente. Isso permite que alterações no backend de "Alunos" não afetem o módulo de "Cursos".
-2.  **Reutilização de UI**: Elementos de interface como a Sidebar, Tabelas de Dados e Avatares são tratados como componentes lógicos. O arquivo `script.js` atua como o motor de renderização, injetando esses componentes dinamicamente no DOM.
-3.  **Encapsulamento de Lógica (Services)**: Toda a comunicação com a API e lógica de autenticação está encapsulada em arquivos de serviço (`frontend/services/`), separando a estrutura (HTML) do comportamento (JS).
-
-
-
-###  Divisão de Camadas
-
-| Camada | Responsabilidade | Implementação |
-| :--- | :--- | :--- |
-| **View (UI)** | Interface modular com o usuário | HTML Semântico + CSS Grid |
-| **Logic (Component)** | Manipulação de dados e comportamento | JavaScript (ES6+) |
-| **Service (API)** | Comunicação desacoplada com o Backend | Fetch API + JWT |
-| **Data (Persistence)** | Armazenamento de estado e sessão | LocalStorage & PostgreSQL |
-
-###  Vantagens desta Arquitetura no Projeto
-- **Manutenibilidade**: Correções de bugs são localizadas dentro do componente específico.
-- **Escalabilidade**: Facilita a adição de novos perfis de usuário (ex: Moderadores) sem refatorar o sistema inteiro.
-- **Independência**: O Frontend pode evoluir visualmente sem depender de mudanças estruturais na API.
-
-Desenvolvido para: SENAC 2026
-
-Tecnologias: HTML5, CSS3, JavaScript (ES6+), Boxicons.
-
+<div align="center">
+  <br>
+  <p><strong>Desenvolvido com 💙 para o Projeto SENAC 2026.</strong></p>
+  <p>Transformando a jornada acadêmica através da tecnologia.</p>
+</div>

@@ -142,9 +142,15 @@ async function apiFetch(endpoint, options = {}) {
     }
 }
 
-const apiGet = (endpoint) => apiFetch(endpoint, { method: 'GET' });
-const apiPost = (endpoint, body) => apiFetch(endpoint, { method: 'POST', body });
-const apiPatch = (endpoint, body) => apiFetch(endpoint, { method: 'PATCH', body });
+if (typeof apiGet === 'undefined') {
+    window.apiGet = (endpoint) => apiFetch(endpoint, { method: 'GET' });
+}
+if (typeof apiPost === 'undefined') {
+    window.apiPost = (endpoint, body) => apiFetch(endpoint, { method: 'POST', body });
+}
+if (typeof apiPatch === 'undefined') {
+    window.apiPatch = (endpoint, body) => apiFetch(endpoint, { method: 'PATCH', body });
+}
 
 /* ========== UTILS (Formatação e UI) ========== */
 

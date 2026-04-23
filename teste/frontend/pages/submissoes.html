@@ -39,7 +39,7 @@
             if (Array.isArray(perfil)) perfil = perfil[0];
             if (typeof perfil === 'string') perfil = perfil.toUpperCase();
 
-            if (perfil === 'COORDENADOR' || perfil === 'SUPER_ADMIN' || perfil === 'ADMIN') {
+            if (perfil === 'COORDENADOR' || perfil === 'COORDINATOR' || perfil === 'SUPER_ADMIN' || perfil === 'SUPER_ADMIN' || perfil === 'ADMIN') {
                 // Backend Coordenador
                 apiGet('/coordenador/meus-cursos').then(cursos => {
                     if (cursos && cursos.length > 0) {
@@ -49,7 +49,7 @@
                                 // Pode retornar o objeto com .submissoes ou array plano
                                 const subs = Array.isArray(resposta) ? resposta : (resposta.submissoes || []);
                                 const contadores = resposta.contadores || null;
-                                renderGrid(subs, contadores);
+                                renderGrid(subs, contadores, cursos.length);
                             }
                         }).catch(() => fallbackGrid());
                     } else {
@@ -67,26 +67,34 @@
                 }).catch(() => fallbackGrid());
             }
 
-            function atualizarKpis(subs, contadores) {
+            function atualizarKpis(subs, contadores, numCursos) {
                 const kpiValues = document.querySelectorAll('.kpi-value');
                 if (!kpiValues || kpiValues.length < 4) return;
+
+                const calcSpace = (total) => {
+                    const mb = total * 2.4;
+                    if (mb >= 1024) return (mb / 1024).toFixed(1) + ' <small>GB</small>';
+                    return mb.toFixed(1) + ' <small>MB</small>';
+                };
 
                 if (contadores) {
                     kpiValues[0].textContent = contadores.total || subs.length;
                     kpiValues[1].textContent = contadores.aprovadas || 0;
-                    kpiValues[2].innerHTML = `18`; // estático provisorio
-                    kpiValues[3].innerHTML = `2.4 <small>GB</small>`;
+                    kpiValues[2].textContent = numCursos !== undefined ? numCursos : 1;
+                    kpiValues[3].innerHTML = calcSpace(contadores.total || subs.length);
                 } else {
                     const pendentes = subs.filter(s => s.status && s.status.toLowerCase().includes('pendente')).length;
                     const aprovadas = subs.filter(s => s.status && s.status.toLowerCase().includes('aprovado')).length;
                     kpiValues[0].textContent = subs.length;
                     kpiValues[1].textContent = aprovadas;
+                    kpiValues[2].textContent = numCursos || 1;
+                    kpiValues[3].innerHTML = calcSpace(subs.length);
                 }
             }
 
-            function renderGrid(subs, contadores = null) {
+            function renderGrid(subs, contadores = null, numCursos = 1) {
                 if (!gridCards) return;
-                atualizarKpis(subs, contadores);
+                atualizarKpis(subs, contadores, numCursos);
 
                 gridCards.innerHTML = '';
                 if (subs.length === 0) {
@@ -126,7 +134,14 @@
             }
 
             function fallbackGrid() {
-                if (gridCards) gridCards.innerHTML = '<p style="padding:20px; color:#ef4444;">Erro ao carregar dados oficiais ou base vazia.</p>';
+                const kpiValues = document.querySelectorAll('.kpi-value');
+                if (kpiValues && kpiValues.length >= 4) {
+                    kpiValues[0].textContent = '0';
+                    kpiValues[1].textContent = '0';
+                    kpiValues[2].textContent = '0';
+                    kpiValues[3].innerHTML = '0 <small>MB</small>';
+                }
+                if (gridCards) gridCards.innerHTML = '<p style="padding:20px; color:#ef4444;">Nenhuma submissão encontrada ou erro ao conectar com o banco de dados.</p>';
             }
         });
     </script>
@@ -142,14 +157,8 @@
                 <span class="logo-subtext">GESTÃO ACADÊMICA</span>
             </div>
 
-            <nav class="menu-navegacao">
-                <a href="dashboardadm.html" class="link-menu"><i class='bx bx-grid-alt'></i> Dashboard</a>
-                <a href="alunos.html" class="link-menu"><i class='bx bx-group'></i> Alunos</a>
-                <a href="protocoloadm.html" class="link-menu"><i class='bx bx-file'></i> Protocolos</a>
-                <a href="submissoes.html" class="link-menu"><i class='bx bx-upload'></i> Submissões</a>
-                <a href="relatorios.html" class="link-menu"><i class='bx bx-bar-chart-alt-2'></i> Relatórios</a>
-                <a href="configuracao.html" class="link-menu"><i class='bx bx-cog'></i> Configurações</a>
-            </nav>
+            <!-- Menu preenchido dinamicamente pelo script.js -->
+            <nav class="menu-navegacao"></nav>
 
             <div class="sidebar-bottom-action">
                 <div class="perfil-sidebar">
@@ -224,25 +233,25 @@
             <section class="kpis-row">
                 <div class="kpi-box">
                     <span class="kpi-label">TOTAL DE CERTIFICADOS</span>
-                    <div class="kpi-value">1,284</div>
-                    <div class="kpi-bottom text-green"><i class='bx bx-trending-up'></i> +12% este mês</div>
+                    <div class="kpi-value">...</div>
+                    <div class="kpi-bottom text-green" id="kpi-sub-1"></div>
                 </div>
                 <div class="kpi-box">
                     <span class="kpi-label">VALIDADOS HOJE</span>
-                    <div class="kpi-value">42</div>
-                    <div class="kpi-bottom text-gray"><i class='bx bx-time'></i> Processamento médio: 4h</div>
+                    <div class="kpi-value">...</div>
+                    <div class="kpi-bottom text-gray" id="kpi-sub-2"></div>
                 </div>
                 <div class="kpi-box">
                     <span class="kpi-label">CURSOS ATIVOS</span>
-                    <div class="kpi-value">18</div>
-                    <div class="kpi-bottom text-gray"><i class='bx bxs-graduation'></i> Unidades Senac/SP</div>
+                    <div class="kpi-value">...</div>
+                    <div class="kpi-bottom text-gray" id="kpi-sub-3"></div>
                 </div>
                 <div class="kpi-box">
                     <span class="kpi-label">ESPAÇO UTILIZADO</span>
-                    <div class="kpi-value">2.4 <small>GB</small></div>
+                    <div class="kpi-value">...</div>
                     <div class="kpi-bottom">
                         <div class="progress-bar-container">
-                            <div class="progress-bar-fill" style="width: 75%;"></div>
+                            <div class="progress-bar-fill" style="width: 0%;"></div>
                         </div>
                     </div>
                 </div>

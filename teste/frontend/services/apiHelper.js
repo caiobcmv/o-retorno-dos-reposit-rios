@@ -111,9 +111,15 @@ async function apiCall(endpoint, method = 'GET', body = null) {
 }
  
 // Atalhos para os métodos HTTP mais comuns
-const apiGet = (endpoint) => apiCall(endpoint, 'GET');
-const apiPost = (endpoint, body) => apiCall(endpoint, 'POST', body);
-const apiPatch = (endpoint, body) => apiCall(endpoint, 'PATCH', body);
+if (typeof apiGet === 'undefined') {
+    window.apiGet = (endpoint) => apiCall(endpoint, 'GET');
+}
+if (typeof apiPost === 'undefined') {
+    window.apiPost = (endpoint, body) => apiCall(endpoint, 'POST', body);
+}
+if (typeof apiPatch === 'undefined') {
+    window.apiPatch = (endpoint, body) => apiCall(endpoint, 'PATCH', body);
+}
  
 /* ---------- Camada de UI/Formatadores (Component Helpers) ---------- */
  

@@ -36,8 +36,6 @@ body {
     display: flex;
     flex-direction: column;
     padding: 30px 40px;
-    margin-left: 260px; /* Sidebar width */
-    max-width: calc(100vw - 260px);
 }
 
 /* Header & Breadcrumb */
