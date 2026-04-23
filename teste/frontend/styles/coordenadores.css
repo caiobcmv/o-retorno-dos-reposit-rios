@@ -40,8 +40,8 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px 30px;
-    margin-left: 260px; /* Sidebar width */
-    max-width: calc(100vw - 260px);
+    min-height: 100vh;
+    background: var(--bg-page);
 }
 
 /* === HEADER TOP === */
